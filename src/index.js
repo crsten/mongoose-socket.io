@@ -133,7 +133,7 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
 
       Namespace.forEach(namespace => {
         Room.forEach(room => {
-          Emitter(this._id, {
+          Emitter({ _id: this._id}, {
             namespace,
             room,
             eventName: EventName,
