@@ -36,7 +36,7 @@ module.exports = function(io) {
       update: {
         populate: 'skills'
       },
-      remove: false
+      remove: true
     },
     partials: [
       {

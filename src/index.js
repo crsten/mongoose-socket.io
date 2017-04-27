@@ -130,9 +130,10 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
       let Room = Resolvers.Room(this, options);
       let EventName = (options.prefix) ? `${options.prefix}:remove` : `remove` ;
 
+
       Namespace.forEach(namespace => {
         Room.forEach(room => {
-          Emitter(res, {
+          Emitter(this._id, {
             namespace,
             room,
             eventName: EventName,
