@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mongoose - Socket.io Demo</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css">
+</head>
+<body style="padding: 2rem;">
+
+  <div class="container">
+
+    <h1 class="title is-1">Mongoose - Socket.io Demo</h1>
+
+    <div class="block">
+      <a class="button is-primary" id="create">Create</a>
+      <a class="button is-warning" id="update">Update</a>
+      <a class="button is-danger" id="remove">Remove</a>
+    </div>
+
+    <hr>
+
+    <pre><code class="json">...</code></pre>
+
+  </div>
+
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.1/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let socket = io({
+      transports: ['websocket']
+    });
+
+    let namespace = io('/test1',{
+      transports: ['websocket']
+    });
+
+    socket.on('user:create', render);
+    namespace.on('user:create', render);
+
+    socket.on('user:remove', render);
+    namespace.on('user:remove', render);
+
+    socket.on('user:update', render);
+    namespace.on('user:update', render);
+
+
+    function render(output){
+      document.querySelector('.json').innerHTML = JSON.stringify(output,null,2);
+    }
+
+    document.querySelector('#create')
+      .addEventListener('click', function(){
+        axios({
+          method: 'POST',
+          url: '/',
+          data: {
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            skills: faker.lorem.words().split(' ')
+          }
+        })
+      });
+
+    document.querySelector('#update')
+      .addEventListener('click', function(){
+        axios({
+          method: 'PUT',
+          url: '/',
+          data: {
+            name: faker.name.findName()
+          }
+        })
+      });
+
+    document.querySelector('#remove')
+      .addEventListener('click', function(){
+        axios({
+          method: 'DELETE',
+          url: '/'
+        })
+      });
+
+  </script>
+</body>
+</html>
