@@ -4,6 +4,7 @@ const Resolvers = {
   Room: require('./utils/room')
 };
 
+const Emitter = require('./emitter');
 const Fetcher = require('./utils/fetcher');
 
 const defaultOptions = {

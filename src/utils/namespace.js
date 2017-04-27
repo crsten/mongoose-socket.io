@@ -12,7 +12,7 @@ const ResolveNamespace = function(doc, options) {
     if(typeof namespace === 'function') result.push(convert(namespace(doc)));
     if(namespace instanceof Array) result.push(namespace.map(convert));
 
-    return flatten(result);
+    return (!result.length) ? ['/'] : flatten(result);
   }
 };
 

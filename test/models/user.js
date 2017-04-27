@@ -51,7 +51,7 @@ module.exports = function(io) {
         select: 'skills.usefull'
       }
     ],
-    debug: false
+    debug: true
   });
 
   return {

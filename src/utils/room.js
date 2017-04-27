@@ -12,7 +12,7 @@ const ResolveRoom = function(doc, options) {
     if(typeof room === 'function') result.push(convert(room(doc)));
     if(room instanceof Array) result.push(room.map(convert));
 
-    return flatten(result);
+    return (!result.length) ? [''] : flatten(result);
   }
 };
 
