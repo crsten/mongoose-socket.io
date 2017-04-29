@@ -97,7 +97,7 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
 
     if(this.modifiedPartials) {
       options.partials
-        .filter(partial => Intersect(partial.triggers.split(' '), this.modifiedPartials))
+        .filter(partial => Intersect(partial.triggers.split(' '), this.modifiedPartials).length)
         .forEach(partial => {
           if(!partial.eventName) return console.warning(`EventName is not spesified`);
           let EventName = `${Prefix}partial:${partial.eventName}`
