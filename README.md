@@ -67,6 +67,12 @@ This is the result of the socket.io initialization
 ### prefix
 
 Prefixes all event names that are being emitted from this model. *(Example for creation event: 'PREFIX:create')*
+You can pass the following types:
+
+| Type | Guide |
+| ---- | ----- |
+| String | Pass a string to emit to a single & fixed namespace |
+| Function | Pass a function that will be resolved right before emitting. Accepts string as return and handles the returned values as explained earlier in this table. The first parameter of the function contains the currently new/modified/removed item, so you could use some company id or anything in the document as eventname |
 
 ### namespace
 

@@ -1,7 +1,8 @@
 const Intersect = require('intersect');
 const Resolvers = {
   Namespace: require('./utils/namespace'),
-  Room: require('./utils/room')
+  Room: require('./utils/room'),
+  Prefix: require('./utils/prefix')
 };
 
 const Emitter = require('./emitter');
@@ -48,11 +49,11 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
 
     let Namespace = Resolvers.Namespace(this, options);
     let Room = Resolvers.Room(this, options);
-    let Prefix = (options.prefix) ? `${options.prefix}:` : '' ;
+    let Prefix = Resolvers.Prefix(this, options);
 
 
     if(this.wasNew && options.events.create) {
-      let EventName = `${Prefix}create`;
+      let EventName = (Prefix) ? `${Prefix}:create` : 'create' ;
 
       Fetcher(this, {
         select: options.events.create.select,
@@ -74,7 +75,7 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
     }
 
     if(!this.wasNew && options.events.update) {
-      let EventName = `${Prefix}update`;
+      let EventName = (Prefix) ? `${Prefix}:update` : 'update' ;
 
       Fetcher(this, {
         select: options.events.update.select,
@@ -100,7 +101,7 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
         .filter(partial => Intersect(partial.triggers.split(' '), this.modifiedPartials).length)
         .forEach(partial => {
           if(!partial.eventName) return console.warning(`EventName is not spesified`);
-          let EventName = `${Prefix}partial:${partial.eventName}`
+          let EventName = (Prefix) ? `${Prefix}:partial:${partial.eventName}` : `partial:${partial.eventName}` ;
 
           Fetcher(this, {
             select: partial.select,
@@ -128,7 +129,8 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
     if(options.events.remove) {
       let Namespace = Resolvers.Namespace(this, options);
       let Room = Resolvers.Room(this, options);
-      let EventName = (options.prefix) ? `${options.prefix}:remove` : `remove` ;
+      let Prefix = Resolvers.Prefix(this, options);
+      let EventName = (Prefix) ? `${Prefix}:remove` : 'remove' ;
 
 
       Namespace.forEach(namespace => {
