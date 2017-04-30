@@ -21,9 +21,7 @@ module.exports = function(io) {
   userSchema.plugin(MSIO, {
     io,
     prefix: 'user',
-    namespace: function(doc){
-      return ['test1','test2']
-    },
+    namespace: doc => doc._id,
     room: ['room1', 'room2'],
     events: {
       create: {

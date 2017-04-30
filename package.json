@@ -35,7 +35,8 @@
   "dependencies": {
     "array-flatten": "^2.1.1",
     "cli-color": "^1.2.0",
-    "intersect": "^1.0.1"
+    "intersect": "^1.0.1",
+    "mongoose": "^4.9.6"
   },
   "config": {
     "commitizen": {
