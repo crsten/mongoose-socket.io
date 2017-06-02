@@ -39,6 +39,11 @@ UserSchema.plugin(mongoooseSocketIo, {
       populate: {
         path: 'skills',
         select: 'name'
+      },
+      map: function(data) {
+        //Do some last mapping/modification
+        data.provider = data.email.split('@').pop();
+        return data;
       }
     },
     update: {
@@ -132,15 +137,24 @@ events: {
     populate: {
       path: 'something',
       select: 'example'
+    },
+    map: function(data) {
+      //Do some last mapping/modification
+      data.provider = data.email.split('@').pop();
+      return data;
     }
   }
 }
 ```
 
+Each event does also support a map function which gives you the ability to modify your data one last time before sending.
+This could be used to merge/delete/add values.
+
 ### partials
 
 Partials gives you the power to create custom events with custom triggers and custom data. Very flexible...
 The settings do also use mongoose built in functionality. So be sure to checkout mongoose documentation.
+You have the `map` function here as well.
 
 ```js
 partials: [

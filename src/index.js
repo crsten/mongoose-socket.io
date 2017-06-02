@@ -60,9 +60,11 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
         populate: options.events.create.populate
       })
       .then(res => {
+        let data = (options.events.create.map) ? options.events.create.map(res) : res ;
+
         Namespace.forEach(namespace => {
           Room.forEach(room => {
-            Emitter(res, {
+            Emitter(data, {
               namespace,
               room,
               eventName: EventName,
@@ -82,9 +84,11 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
         populate: options.events.update.populate
       })
       .then(res => {
+        let data = (options.events.update.map) ? options.events.update.map(res) : res ;
+
         Namespace.forEach(namespace => {
           Room.forEach(room => {
-            Emitter(res, {
+            Emitter(data, {
               namespace,
               room,
               eventName: EventName,
@@ -108,9 +112,11 @@ module.exports = exports = function MongooseSocketIoPlugin(schema, options) {
             populate: partial.populate
           })
           .then(res => {
+            let data = (partial.map) ? partial.map(res) : res ;
+            
             Namespace.forEach(namespace => {
               Room.forEach(room => {
-                Emitter(res, {
+                Emitter(data, {
                   namespace,
                   room,
                   eventName: EventName,

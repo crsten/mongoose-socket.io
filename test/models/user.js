@@ -21,7 +21,6 @@ module.exports = function(io) {
   userSchema.plugin(MSIO, {
     io,
     prefix: 'user',
-    namespace: doc => doc._id,
     room: ['room1', 'room2'],
     events: {
       create: {
@@ -29,6 +28,10 @@ module.exports = function(io) {
         populate: {
           path: 'skills',
           select: 'name'
+        },
+        map: function(data) {
+          data.generated = data.email + '_some_random_generated_stuff';
+          return data;
         }
       },
       update: {
