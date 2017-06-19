@@ -17,8 +17,13 @@ const ResolveNamespace = function(doc, options) {
       console.log('Invalid namespace type');
     }
 
-    return (!result.length) ? ['/'] : flatten(result);
+    return (!result.length) ? ['/'] : flatten(result).map(ensureTrailingSlash);
   }
 };
+
+function ensureTrailingSlash(ns) {
+  if(ns.substring(0,1) !== '/') return `/${ns}`;
+  return ns;
+}
 
 module.exports = ResolveNamespace;
